@@ -1,0 +1,24 @@
+{
+  "name": "next-calendar",
+  "version": "1.0.0",
+  "description": "Display future calendar events for iCal files in root of directory where this is installed.",
+  "bin": {
+    "next-calendar": "index.js"
+  },
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "next",
+    "calendar"
+  ],
+  "author": "Noran Diaconu",
+  "license": "MIT",
+  "devDependencies": {
+    "moment": "^2.29.1"
+  },
+  "dependencies": {
+    "moment": "^2.29.1"
+  }
+}
