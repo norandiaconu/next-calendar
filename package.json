@@ -1,6 +1,6 @@
 {
   "name": "next-calendar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Display future calendar events for iCal files in root of directory where this is installed.",
   "bin": {
     "next-calendar": "index.js"
@@ -13,6 +13,11 @@
     "next",
     "calendar"
   ],
+  "homepage": "https://github.com/norandiaconu/next-calendar#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/norandiaconu/next-calendar.git"
+  },
   "author": "Noran Diaconu",
   "license": "MIT",
   "devDependencies": {
