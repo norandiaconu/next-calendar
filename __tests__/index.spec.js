@@ -1,4 +1,4 @@
-const { processFile } = require("./index");
+const { processFile } = require("../index");
 
 describe("processFile result function", () => {
     test("it should return future calendar events", () => {
@@ -11,6 +11,6 @@ describe("processFile result function", () => {
 
 describe("processFile no file function", () => {
     test("it should not return an event", () => {
-        expect(processFile("", "test.ics")).toEqual("there are no upcoming events in test.ics");
+        expect(processFile("", "test.ics")).toEqual("no upcoming events in test.ics");
     });
 });
