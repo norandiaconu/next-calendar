@@ -35,7 +35,7 @@ try {
     let files = dir.filter(function (elem) {
         return elem.match(/.*\.(ics?)/gi);
     });
-    console.log("files found: ", files);
+    console.log("local files found: ", files);
 
     files.forEach((file) => {
         let data = fs.readFileSync(file, "utf8");
@@ -64,9 +64,11 @@ async function loadURL(url, token) {
         };
     }
 
+    let downloadedEvents = "";
     await axios(request).then((res) => {
-        processFile(res.data, "downloaded.ics");
+        downloadedEvents = processFile(res.data, "downloaded.ics");
     });
+    return downloadedEvents;
 }
 
 function processFile(data, file) {
@@ -90,8 +92,9 @@ function processFile(data, file) {
 
         if (moment(date).isAfter()) {
             summary = data.substring(indexSummary + 8, indexSummary + 100);
-            summary = summary.match(new RegExp("(.*)\r"))[0];
+            summary = summary.match(new RegExp("(.*)(\r|\n)"))[0];
             summary = summary.replace("\r", "");
+            summary = summary.replace("\n", "");
             event.date = date;
             event.summary = summary;
             dateArray.push(event);
@@ -139,4 +142,4 @@ function processFile(data, file) {
     }
 }
 
-module.exports = { processFile };
+module.exports = { loadURL, processFile };
