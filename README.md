@@ -5,19 +5,19 @@ A URL can be passed in to load an online ics file and display the current/future
 
 ## Installation
 
-`npm install next-calendar`
+`npm i next-calendar`
 
 ## Usage
 
-* #### Local Files
-    * Copy all iCal(.ics) files to the directory where the package has been installed.
-    * Run `next-calendar` and current/future events in those calendars will be displayed in the cli.
-* #### Online File
-    * `next-calendar -d "https://website.com/calendar.ics"`
-* #### Online File with Authentication
-    * `next-calendar -d "https://website.com/calendar.ics" -t "123456"`
+- #### Local Files
+  - Copy all iCal(.ics) files to the directory where the package has been installed.
+  - Run `npx next-calendar` and current/future events in those calendars will be displayed in the cli.
+- #### Online File
+  - `npx next-calendar -d "https://website.com/calendar.ics"`
+- #### Online File with Authentication
+  - `npx next-calendar -d "https://website.com/calendar.ics" -t "123456"`
 
 ## Options
 
-* `-d, --download <url>` download ics from the provided url
-* `-t, --token <token>` personal access token to load ics from url requiring authentication
+- `-d, --download <url>` download ics from the provided url
+- `-t, --token <token>` personal access token to load ics from url requiring authentication
