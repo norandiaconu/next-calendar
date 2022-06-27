@@ -13,36 +13,39 @@ Examples:
 \tLoad from url:\t\t\tnext-calendar -d "https://website.com/calendar.ics"
 \tLoad from url with token:\tnext-calendar -d "https://website.com/calendar.ics" -t "123456"`;
 
-try {
-    const program = new commander.Command();
-    program
-        .option("-h, --help", "help text")
-        .option("-d, --download <url>", "download url")
-        .option("-t, --token <token>", "pass token");
-    program.parse(process.argv);
-    const options = program.opts();
-    if (options.help) {
-        console.log(helpText);
-        exit(0);
+main();
+function main() {
+    try {
+        const program = new commander.Command();
+        program
+            .option("-h, --help", "help text")
+            .option("-d, --download <url>", "download url")
+            .option("-t, --token <token>", "pass token");
+        program.parse(process.argv);
+        const options = program.opts();
+        if (options.help) {
+            console.log(helpText);
+            exit(0);
+        }
+        if (options.download && options.token) {
+            loadURL(options.download, options.token);
+        } else if (options.download) {
+            loadURL(options.download, "");
+        }
+    
+        let dir = fs.readdirSync(".");
+        let files = dir.filter(function (elem) {
+            return elem.match(/.*\.(ics?)/gi);
+        });
+        console.log("local files found: ", files);
+    
+        files.forEach((file) => {
+            let data = fs.readFileSync(file, "utf8");
+            processFile(data, file);
+        });
+    } catch (e) {
+        console.log("error: ", e.stack);
     }
-    if (options.download && options.token) {
-        loadURL(options.download, options.token);
-    } else if (options.download) {
-        loadURL(options.download, "");
-    }
-
-    let dir = fs.readdirSync(".");
-    let files = dir.filter(function (elem) {
-        return elem.match(/.*\.(ics?)/gi);
-    });
-    console.log("local files found: ", files);
-
-    files.forEach((file) => {
-        let data = fs.readFileSync(file, "utf8");
-        processFile(data, file);
-    });
-} catch (e) {
-    console.log("error: ", e.stack);
 }
 
 async function loadURL(url, token) {
@@ -65,9 +68,13 @@ async function loadURL(url, token) {
     }
 
     let downloadedEvents = "";
-    await axios(request).then((res) => {
-        downloadedEvents = processFile(res.data, "downloaded.ics");
-    });
+    try {
+        await axios(request).then((res) => {
+            downloadedEvents = processFile(res.data, "downloaded.ics");
+        });
+    } catch(e) {
+        console.log("error loading url:", e.code);
+    }
     return downloadedEvents;
 }
 
@@ -142,4 +149,4 @@ function processFile(data, file) {
     }
 }
 
-module.exports = { loadURL, processFile };
+module.exports = { loadURL, main, processFile };
