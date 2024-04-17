@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const fs = require("fs");
-const moment = require("moment");
+const fns = require("date-fns");
 const axios = require("axios");
 const commander = require("commander");
 const { exit } = require("process");
@@ -32,13 +32,13 @@ function main() {
         } else if (options.download) {
             loadURL(options.download, "");
         }
-    
+
         let dir = fs.readdirSync(".");
         let files = dir.filter(function (elem) {
             return elem.match(/.*\.(ics?)/gi);
         });
         console.log("local files found: ", files);
-    
+
         files.forEach((file) => {
             let data = fs.readFileSync(file, "utf8");
             processFile(data, file);
@@ -72,7 +72,7 @@ async function loadURL(url, token) {
         await axios(request).then((res) => {
             downloadedEvents = processFile(res.data, "downloaded.ics");
         });
-    } catch(e) {
+    } catch (e) {
         console.log("error loading url:", e.code);
     }
     return downloadedEvents;
@@ -97,7 +97,7 @@ function processFile(data, file) {
             .substring(0, 8);
         date = date.slice(0, 4) + "-" + date.slice(4, 6) + "-" + date.slice(6);
 
-        if (moment(date).isAfter()) {
+        if (fns.isAfter(date, new Date())) {
             summary = data.substring(indexSummary + 8, indexSummary + 100);
             summary = summary.match(new RegExp("(.*)(\r|\n)"))[0];
             summary = summary.replace("\r", "");
@@ -112,7 +112,7 @@ function processFile(data, file) {
                 .substring(0, 8);
             endDate = endDate.slice(0, 4) + "-" + endDate.slice(4, 6) + "-" + endDate.slice(6);
 
-            if (moment(endDate).isAfter()) {
+            if (fns.isAfter(endDate, new Date())) {
                 summary = data.substring(indexSummary + 8, indexSummary + 100);
                 summary = summary.match(new RegExp("(.*)\r"))[0];
                 summary = summary.replace("\r", "");
