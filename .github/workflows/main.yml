@@ -1,24 +1,25 @@
 name: Run jest tests
 on:
-  push:
-    branches: ["main"]
-  workflow_dispatch:
+    push:
+        branches: ["main"]
+    workflow_dispatch:
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+    build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 9
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: run ci
-        run: npm ci
+            - name: run ci
+              run: npm ci
 
-      - name: run jest
-        run: npm test
+            - name: run jest
+              run: npm test
 
-      - name: tests passed
-        if: ${{ success() }}
-        run: echo tests passed
+            - name: tests passed
+              if: ${{ success() }}
+              run: echo tests passed
 
-      - name: tests failed
-        if: ${{ failure() }}
-        run: echo tests failed
+            - name: tests failed
+              if: ${{ failure() }}
+              run: echo tests failed

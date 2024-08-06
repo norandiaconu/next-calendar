@@ -55,15 +55,15 @@ async function loadURL(url, token) {
             url: url,
             method: "GET",
             headers: {
-                Authorization: "Bearer " + token,
+                Authorization: "Bearer " + token
             },
-            responseType: "blob",
+            responseType: "blob"
         };
     } else {
         request = {
             url: url,
             method: "GET",
-            responseType: "blob",
+            responseType: "blob"
         };
     }
 
